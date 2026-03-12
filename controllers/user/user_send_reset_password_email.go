@@ -55,8 +55,7 @@ func SendResetPasswordEmail(c *fiber.Ctx) error {
 	}
 
 	plain := fmt.Sprintf("%s|%s", user.Email, resetCode)
-	encKey := os.Getenv("INVITE_ENCRYPTION_KEY")
-	encrypted, errEnc := utils.Encrypt(plain, encKey)
+	encrypted, errEnc := utils.Encrypt(plain, os.Getenv("INVITE_ENCRYPTION_KEY"))
 	if errEnc != nil {
 		return c.Status(http.StatusInternalServerError).JSON(
 			fiber.Map{"error": "Failed to encrypt reset link code"},

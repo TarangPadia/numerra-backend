@@ -143,19 +143,14 @@ func OAuthCallback(c *fiber.Ctx) error {
 		return c.Status(500).SendString("Token exchange failed")
 	}
 
-	encKey := os.Getenv("CONNECTOR_ENCRYPTION_KEY")
-	if encKey == "" {
-		return c.Status(500).SendString("Missing CONNECTOR_ENCRYPTION_KEY")
-	}
-
-	accessEnc, err := utils.EncryptV2(tokenRes.AccessToken, encKey)
+	accessEnc, err := utils.Encrypt(tokenRes.AccessToken, os.Getenv("CONNECTOR_ENCRYPTION_KEY"))
 	if err != nil {
 		return c.Status(500).SendString("Encryption failed")
 	}
 
 	var refreshEnc *string
 	if tokenRes.RefreshToken != nil && *tokenRes.RefreshToken != "" {
-		rEnc, err := utils.EncryptV2(*tokenRes.RefreshToken, encKey)
+		rEnc, err := utils.Encrypt(*tokenRes.RefreshToken, os.Getenv("CONNECTOR_ENCRYPTION_KEY"))
 		if err != nil {
 			return c.Status(500).SendString("Encryption failed")
 		}
@@ -232,12 +227,9 @@ func DisconnectIntegration(c *fiber.Ctx) error {
 	}
 
 	if row.Provider == "quickbooks" && row.RefreshTokenEnc != nil {
-		encKey := os.Getenv("CONNECTOR_ENCRYPTION_KEY")
-		if encKey != "" {
-			if rt, err := utils.DecryptV2(*row.RefreshTokenEnc, encKey); err == nil {
-				if drv, err := providers.GetDriver("quickbooks", ""); err == nil {
-					_ = drv.Revoke(rt, "refresh_token")
-				}
+		if rt, err := utils.Decrypt(*row.RefreshTokenEnc, os.Getenv("CONNECTOR_ENCRYPTION_KEY")); err == nil {
+			if drv, err := providers.GetDriver("quickbooks", ""); err == nil {
+				_ = drv.Revoke(rt, "refresh_token")
 			}
 		}
 	}

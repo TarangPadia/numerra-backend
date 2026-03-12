@@ -29,9 +29,7 @@ func VerifyResetPassword(c *fiber.Ctx) error {
 		)
 	}
 
-	encKey := os.Getenv("INVITE_ENCRYPTION_KEY")
-
-	decrypted, errDec := utils.Decrypt(body.Code, encKey, "INVITE")
+	decrypted, errDec := utils.Decrypt(body.Code, os.Getenv("INVITE_ENCRYPTION_KEY"))
 	if errDec != nil {
 		return c.Status(http.StatusBadRequest).JSON(fiber.Map{
 			"isVerified": false,
@@ -70,7 +68,7 @@ func VerifyResetPassword(c *fiber.Ctx) error {
 		})
 	}
 
-	newPlainPwd, errDecPwd := utils.Decrypt(body.EncryptedPassword, encKey, "PASSWORD")
+	newPlainPwd, errDecPwd := utils.Decrypt(body.EncryptedPassword, os.Getenv("INVITE_ENCRYPTION_KEY"))
 	if errDecPwd != nil {
 		return c.Status(http.StatusBadRequest).JSON(fiber.Map{
 			"isVerified": false,

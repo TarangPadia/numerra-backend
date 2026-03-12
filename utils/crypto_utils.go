@@ -3,19 +3,28 @@ package utils
 import (
 	"crypto/aes"
 	"crypto/cipher"
+	"crypto/rand"
 	"encoding/base64"
 	"errors"
-	"log"
+	"io"
 	"strings"
 )
 
-func Encrypt(plainText, key string) (string, error) {
-	rawKey, err := base64.RawURLEncoding.DecodeString(key)
+func decodeAES256Key(keyB64 string) ([]byte, error) {
+	rawKey, err := base64.RawURLEncoding.DecodeString(keyB64)
 	if err != nil {
-		log.Fatalf("Failed to decode Base64 key: %v", err)
+		return nil, err
 	}
 	if len(rawKey) != 32 {
-		log.Fatalf("Expected 32 bytes for AES-256 key, got %d", len(rawKey))
+		return nil, errors.New("invalid AES-256 key length (must be 32 bytes)")
+	}
+	return rawKey, nil
+}
+
+func Encrypt(plainText, keyB64 string) (string, error) {
+	rawKey, err := decodeAES256Key(keyB64)
+	if err != nil {
+		return "", err
 	}
 
 	block, err := aes.NewCipher(rawKey)
@@ -29,30 +38,23 @@ func Encrypt(plainText, key string) (string, error) {
 	}
 
 	nonce := make([]byte, gcm.NonceSize())
+	if _, err := io.ReadFull(rand.Reader, nonce); err != nil {
+		return "", err
+	}
 
 	ciphertext := gcm.Seal(nonce, nonce, []byte(plainText), nil)
-
-	return base64.URLEncoding.EncodeToString(ciphertext), nil
+	return base64.RawURLEncoding.EncodeToString(ciphertext), nil
 }
 
-func Decrypt(encText, key, decryptType string) (string, error) {
-	var data []byte
-	var err error
-	if decryptType == "INVITE" {
-		data, err = base64.URLEncoding.DecodeString(encText)
-	} else {
-		data, err = base64.StdEncoding.DecodeString(encText)
-	}
+func Decrypt(encText, keyB64 string) (string, error) {
+	rawKey, err := decodeAES256Key(keyB64)
 	if err != nil {
 		return "", err
 	}
 
-	rawKey, err := base64.RawURLEncoding.DecodeString(key)
+	data, err := base64.RawURLEncoding.DecodeString(strings.TrimSpace(encText))
 	if err != nil {
 		return "", err
-	}
-	if len(rawKey) != 32 {
-		return "", errors.New("invalid AES-256 key length (must be 32 bytes)")
 	}
 
 	block, err := aes.NewCipher(rawKey)
@@ -68,12 +70,13 @@ func Decrypt(encText, key, decryptType string) (string, error) {
 	if len(data) < gcm.NonceSize() {
 		return "", errors.New("ciphertext too short")
 	}
-	nonce, ciphertext := data[:gcm.NonceSize()], data[gcm.NonceSize():]
 
+	nonce, ciphertext := data[:gcm.NonceSize()], data[gcm.NonceSize():]
 	plaintext, err := gcm.Open(nil, nonce, ciphertext, nil)
 	if err != nil {
 		return "", err
 	}
+
 	return string(plaintext), nil
 }
 

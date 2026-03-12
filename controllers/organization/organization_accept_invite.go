@@ -28,7 +28,7 @@ func AcceptInvite(c *fiber.Ctx) error {
 		)
 	}
 
-	decrypted, err := utils.Decrypt(req.EncryptedCode, os.Getenv("INVITE_ENCRYPTION_KEY"), "INVITE")
+	decrypted, err := utils.Decrypt(req.EncryptedCode, os.Getenv("INVITE_ENCRYPTION_KEY"))
 	if err != nil {
 		return c.Status(http.StatusUnauthorized).JSON(
 			fiber.Map{"error": "Invalid invitation code"},

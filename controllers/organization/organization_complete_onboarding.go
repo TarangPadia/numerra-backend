@@ -78,7 +78,7 @@ func CompleteOnboarding(c *fiber.Ctx) error {
 	}
 
 	encryptionKey := os.Getenv("INVITE_ENCRYPTION_KEY")
-	decryptedPwd, errDec := utils.Decrypt(req.Password, encryptionKey, "PASSWORD")
+	decryptedPwd, errDec := utils.Decrypt(req.Password, encryptionKey)
 	if errDec != nil {
 		return c.Status(http.StatusBadRequest).JSON(
 			fiber.Map{"error": fmt.Sprintf("Cannot decrypt password: %v", errDec)},
