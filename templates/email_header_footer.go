@@ -9,13 +9,13 @@ func EmailHeader() string {
     <title>Email</title>
     <style>
         body {
-            background-color: #301B68;
+            background-color: #fff;
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
         }
         .header {
-            background-color: rgba(48, 27, 104, 0.80);
+            background-color: #fff;
             padding: 20px;
             text-align: center;
         }
@@ -23,19 +23,19 @@ func EmailHeader() string {
             height: 40px;
         }
         .content {
-            color: #fff;
+            color: #1a1a1a;
             margin: 20px;
         }
         .footer {
-            color: #ffff;
-            background-color: rgba(48, 27, 104, 0.80);
+            color: #1a1a1a;
+            background-color: #fff;
             padding: 10px;
             text-align: center;
         }
         .footer a {
             margin: 0 15px;
             text-decoration: none;
-            color: #fff;
+            color: #1a1a1a;
         }
         .footer a:hover {
             text-decoration: underline;
@@ -44,7 +44,7 @@ func EmailHeader() string {
 </head>
 <body>
     <div class="header">
-        <img src="https://tarangpadia.github.io/magdaTestImg/SurrealXPLogo.png" alt="Company Logo" />
+        <img src="https://tarangpadia.github.io/magdaTestImg/numerra_logo.png" alt="Company Logo" />
     </div>
     <div class="content">
 `

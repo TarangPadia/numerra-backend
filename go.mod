@@ -1,4 +1,4 @@
-module numerra-backend
+module donnes-backend
 
 go 1.22.6
 

@@ -1,8 +1,8 @@
 package organization
 
 import (
-	"numerra-backend/config"
-	"numerra-backend/models"
+	"donnes-backend/config"
+	"donnes-backend/models"
 	"time"
 
 	"github.com/gofiber/fiber/v2"

@@ -1,9 +1,9 @@
 package middlewares
 
 import (
+	"donnes-backend/config"
+	"donnes-backend/models"
 	"fmt"
-	"numerra-backend/config"
-	"numerra-backend/models"
 	"os"
 	"strings"
 

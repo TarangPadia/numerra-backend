@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"numerra-backend/controllers/integrations"
+	"donnes-backend/controllers/integrations"
 
 	"github.com/gofiber/fiber/v2"
 )

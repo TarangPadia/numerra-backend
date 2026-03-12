@@ -1,8 +1,8 @@
 package auth
 
 import (
-	"numerra-backend/config"
-	"numerra-backend/models"
+	"donnes-backend/config"
+	"donnes-backend/models"
 
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"

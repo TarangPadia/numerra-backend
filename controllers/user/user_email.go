@@ -2,12 +2,12 @@ package user
 
 import (
 	"crypto/rand"
+	"donnes-backend/config"
+	"donnes-backend/models"
+	"donnes-backend/templates"
+	"donnes-backend/utils"
 	"fmt"
 	"net/http"
-	"numerra-backend/config"
-	"numerra-backend/models"
-	"numerra-backend/templates"
-	"numerra-backend/utils"
 	"os"
 	"strconv"
 	"time"

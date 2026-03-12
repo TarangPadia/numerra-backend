@@ -1,12 +1,12 @@
 package user
 
 import (
+	"donnes-backend/config"
+	"donnes-backend/models"
+	"donnes-backend/templates"
+	"donnes-backend/utils"
 	"fmt"
 	"net/http"
-	"numerra-backend/config"
-	"numerra-backend/models"
-	"numerra-backend/templates"
-	"numerra-backend/utils"
 	"os"
 	"time"
 

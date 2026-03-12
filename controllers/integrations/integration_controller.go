@@ -5,10 +5,10 @@ import (
 	"os"
 	"time"
 
-	"numerra-backend/config"
-	"numerra-backend/models"
-	"numerra-backend/providers"
-	"numerra-backend/utils"
+	"donnes-backend/config"
+	"donnes-backend/models"
+	"donnes-backend/providers"
+	"donnes-backend/utils"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"

@@ -1,12 +1,12 @@
 package organization
 
 import (
+	"donnes-backend/config"
+	"donnes-backend/models"
+	"donnes-backend/utils"
 	"fmt"
 	"net/http"
 	"net/mail"
-	"numerra-backend/config"
-	"numerra-backend/models"
-	"numerra-backend/utils"
 	"os"
 	"time"
 

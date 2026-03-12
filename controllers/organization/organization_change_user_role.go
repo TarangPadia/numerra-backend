@@ -1,9 +1,9 @@
 package organization
 
 import (
+	"donnes-backend/config"
+	"donnes-backend/models"
 	"fmt"
-	"numerra-backend/config"
-	"numerra-backend/models"
 
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"

@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	"numerra-backend/config"
-	"numerra-backend/routes"
+	"donnes-backend/config"
+	"donnes-backend/routes"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
